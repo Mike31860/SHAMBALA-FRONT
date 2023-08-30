@@ -3,15 +3,16 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const session = request.cookies.get("session");
+
   console.log("session ", session);
+
   if (!session) {
-    const isLoginRequested = request.nextUrl.pathname.includes("/login");
+    const isLoginRequested = request.url.includes("/login");
     console.log("isLoginRequested ", isLoginRequested);
 
     return isLoginRequested
       ? NextResponse.next()
       : NextResponse.redirect(new URL("/login", request.url));
-
   }
 
   const responseAPI = await fetch(
@@ -23,14 +24,12 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  console.log("session ", responseAPI);
-
   if (responseAPI.status !== 200) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+    if (request.url.includes("/login")) {
+      return NextResponse.next();
+    }
 
-  if (request.url.includes("/login")) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();

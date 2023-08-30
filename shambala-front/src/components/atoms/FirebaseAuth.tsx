@@ -3,6 +3,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import "firebaseui/dist/firebaseui.css";
 import { auth } from "firebaseui";
 import { appLogin } from "@pages/serverActions/auth";
+import { useRouter } from "next/navigation";
 
 interface Props {
   uiConfig: auth.Config;
@@ -17,9 +18,12 @@ const FirebaseAuth = ({
   className,
   uiCallback,
 }: Props) => {
+  const router = useRouter();
+
   const [firebaseui, setFirebaseui] = useState<
     typeof import("firebaseui") | null
   >(null);
+
   const [userSignedIn, setUserSignedIn] = useState(false);
   const elementRef = useRef(null);
 
@@ -38,10 +42,18 @@ const FirebaseAuth = ({
 
     // We track the auth state to reset firebaseUi if the user signs out.
     const unregisterAuthObserver = onAuthStateChanged(firebaseAuth, (user) => {
-      if (!user && userSignedIn) firebaseUiWidget.reset();
+      if (!user && !userSignedIn) {
+        return;
+      }
+
+      if (!user && userSignedIn) {
+        firebaseUiWidget.reset();
+      }
+
       setUserSignedIn(!!user);
       user.getIdToken().then((token) => {
-        appLogin(token)
+        appLogin(token);
+        router.push('/')
       });
     });
 

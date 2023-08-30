@@ -7,7 +7,6 @@ customInitApp();
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const authorization = headers().get("Authorization");
-  console.log("AUTH")
   if (authorization?.startsWith("Bearer ")) {
     const idToken = authorization.split("Bearer ")[1];
     const decodedToken = await auth().verifyIdToken(idToken);
@@ -33,18 +32,26 @@ export async function POST(request: NextRequest, response: NextResponse) {
   return NextResponse.json({}, { status: 200 });
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = cookies().get("session")?.value || "";
 
   if (!session) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 
-  const decodedClaims = await auth().verifySessionCookie(session, true);
+  try {
+    const decodedClaims = await auth().verifySessionCookie(session, true);
+    console.log("DECODED ", decodedClaims);
+    if (!decodedClaims) {
+      console.log("NON DECODED");
+      cookies().delete("session");
+      //ADD HANDLING ERROR IN CASE TOKEN HAS EXPIRED. ADd logic to refresh token.
+      // See: https://stackoverflow.com/questions/62389267/how-to-handle-firebaseauth-token-expiration
+      return NextResponse.json({ isLogged: false }, { status: 401 });
+    }
 
-  if (!decodedClaims) {
+    return NextResponse.json({ isLogged: true }, { status: 200 });
+  } catch (error) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
-
-  return NextResponse.json({ isLogged: true }, { status: 200 });
 }

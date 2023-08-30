@@ -9,12 +9,12 @@ import {
 import { GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBig_NuEmR0nd1GYp-uksPR9Rwser9kICE",
-  authDomain: "shambala-5802c.firebaseapp.com",
-  projectId: "shambala-5802c",
-  storageBucket: "shambala-5802c.appspot.com",
-  messagingSenderId: "694742843898",
-  appId: "1:694742843898:web:d3689be4164539f7152443",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_NESSAGING_SENDER,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
