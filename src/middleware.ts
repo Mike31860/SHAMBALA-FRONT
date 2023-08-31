@@ -1,15 +1,10 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest, response: NextResponse) {
+export async function middleware(request: NextRequest) {
   const session = request.cookies.get("session");
   const isNotProtectedPathName =
     request.nextUrl.pathname == "/" || request.nextUrl.pathname == "/login";
-
-  if (request.nextUrl.pathname.startsWith("/api")) {
-    response.headers.append("Access-Control-Allow-Origin", "*");
-    request.headers.append("Access-Control-Allow-Origin", "*");
-  }
 
   if (!session) {
     if (isNotProtectedPathName) {

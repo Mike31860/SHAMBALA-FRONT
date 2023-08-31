@@ -1,4 +1,4 @@
 // import LoginContainer from "./container/LoginContainer";
-import LoginView from "./view/LoginView";
+import LoginContainer from "./container/LoginContainer";
 
-export default LoginView;
+export default LoginContainer;

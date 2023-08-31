@@ -2,8 +2,7 @@
 
 import HomeView from "./home";
 import { Post } from "@domain/models/post";
-import { Suspense, useEffect, useState } from "react";
-import Loading from "./loading";
+import { useEffect, useState } from "react";
 
 const basePost: Post = {
   author: {
@@ -33,11 +32,7 @@ const HomePage = () => {
     setPosts(newPosts);
   }, []);
 
-  return (
-    <Suspense fallback={<Loading />}>
-      <HomeView posts={posts} />
-    </Suspense>
-  );
+  return <HomeView posts={posts} />;
 };
 
 export default HomePage;

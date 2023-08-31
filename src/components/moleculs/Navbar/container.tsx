@@ -3,19 +3,22 @@ import React from "react";
 import { MenuItem } from "../DropdownMenu";
 import Component from "./component";
 import { auth } from "@infrastructure/lib/firebase-config";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut as firebaseSignOut } from "firebase/auth";
 import { appLogout } from "@pages/serverActions/auth";
 
 const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
 
   const signOut = async () => {
     console.log("sign out");
     await firebaseSignOut(auth);
     await appLogout();
+    router.push("/");
   };
 
+  const isLoggedIn = pathname.includes("/shambala");
   const leftmenu: MenuItem[] = [
     {
       label: "Home",
@@ -25,11 +28,14 @@ const Navbar = () => {
       label: "About",
       href: "/about",
     },
-    {
+  ];
+
+  if (isLoggedIn) {
+    leftmenu.push({
       label: "Create",
       href: "/shambala/create",
-    },
-  ];
+    });
+  }
 
   let rightmenu: MenuItem[] = [
     {
@@ -38,8 +44,6 @@ const Navbar = () => {
       badge: "Login / Sign up",
     },
   ];
-
-  const isLoggedIn = pathname.includes("/shambala");
 
   if (isLoggedIn) {
     rightmenu = [
