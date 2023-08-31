@@ -26,6 +26,7 @@ const Home = () => {
     const newPost = await getPostDetails(postId);
     const updatedPosts = posts.map((post) => {
       if (post.id === newPost.id) {
+        console.log("NEW NEW ", newPost);
         return newPost;
       }
       return post;

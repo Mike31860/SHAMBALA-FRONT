@@ -48,10 +48,14 @@ const PostItem: React.FC<PostItemProps> = ({
           <HeartIcon
             onClick={onLike}
             className={cx(
-              "w-8 h-8 hover:text-red-500 hover:cursor-pointer dark:text-white dark:hover:text-red-500",
+              "w-8 h-8 hover:cursor-pointer ",
               {
-                "dark:text-red-500 dark:hover:text-white text-red-500 hover:text-black":
+                "dark:text-red-500 dark:hover:text-white text-red-500 hover:text-gray-500":
                   post.likeUser,
+              },
+              {
+                "dark:text-white dark:hover:text-red-500 hover:text-red-500":
+                  !post.likeUser,
               }
             )}
           />

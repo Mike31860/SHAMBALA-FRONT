@@ -50,6 +50,8 @@ export const getPostDetails = async (postId: string) => {
       `${process.env.NEXT_PUBLIC_API_BASE}/api/posts/${postId}`
     );
     const rawPost = await response.json();
+
+    console.log("RAW POST ", rawPost);
     const post = mapApiPosts(rawPost);
 
     const commentsResponse = await fetch(
@@ -57,7 +59,6 @@ export const getPostDetails = async (postId: string) => {
     );
 
     const rawComments = await commentsResponse.json();
-    console.log("raw comments ", rawComments);
 
     const comments = rawComments.map(mapApiComment);
 
@@ -77,7 +78,7 @@ export const doLikePost = async (postId: string) => {
         method: "POST",
       }
     );
-    return response.json();
+    return response;
   } catch (error) {
     console.debug("FETCH ERROR ON POST LIKE ", error);
   }
