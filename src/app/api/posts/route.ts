@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 export async function GET() {
-  const session = (await cookies().get("session")?.value) || "";
+  const session =  cookies().get("session")?.value || "";
 
   const posts = await fetch(`${process.env.SHAMBALA_API}/posts`, {
     headers: {

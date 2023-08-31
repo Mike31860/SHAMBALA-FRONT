@@ -6,6 +6,8 @@ export async function GET(request: NextRequest) {
   const session = cookies().get("session")?.value || "";
   const slugs = request.url.split("/");
 
+  console.log("Slug postId ",slugs)
+
   if (slugs.length <= 1) {
     return NextResponse.json({ status: 400 });
   }

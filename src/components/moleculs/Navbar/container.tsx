@@ -15,18 +15,16 @@ const Navbar = () => {
     console.log("sign out");
     await firebaseSignOut(auth);
     await appLogout();
-    router.push("/");
+    router.push("/")
   };
+
+  console.log("PATH ", pathname)
 
   const isLoggedIn = pathname.includes("/shambala");
   const leftmenu: MenuItem[] = [
     {
       label: "Home",
-      href: "/",
-    },
-    {
-      label: "About",
-      href: "/about",
+      href: isLoggedIn ? "/shambala" : "/",
     },
   ];
 
@@ -40,7 +38,7 @@ const Navbar = () => {
   let rightmenu: MenuItem[] = [
     {
       label: "Start now!",
-      href: "/login",
+      href: "/",
       badge: "Login / Sign up",
     },
   ];

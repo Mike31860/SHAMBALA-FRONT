@@ -17,7 +17,9 @@ const PostDetailsPage = () => {
   const [post, setPost] = useState<Post>();
 
   useEffect(() => {
-    getPostDetails(postSlug).then(setPost);
+    if (postSlug) {
+      getPostDetails(postSlug).then(setPost);
+    }
   }, [postSlug]);
 
   const onCommentPost = async (comment: string) => {

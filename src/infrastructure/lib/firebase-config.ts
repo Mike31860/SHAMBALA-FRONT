@@ -8,13 +8,13 @@ import {
 } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 
-const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_NESSAGING_SENDER,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+const firebaseConfig = {
+  apiKey: "AIzaSyD8wGfWsJwlk2O8bt-Eyaf9YZRUamHFlqk",
+  authDomain: "shambaladb-12673.firebaseapp.com",
+  projectId: "shambaladb-12673",
+  storageBucket: "shambaladb-12673.appspot.com",
+  messagingSenderId: "673154517280",
+  appId: "1:673154517280:web:d5a3c220de0d948a026f45"
 };
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);

@@ -8,14 +8,13 @@ export interface PostDTO {
   description: string;
 }
 
-
 export const getPosts = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE}/api/posts`
     );
     const rawPosts = await response.json();
-    const posts = rawPosts.map(mapApiPosts);
+    const posts = rawPosts ? rawPosts.map(mapApiPosts) : [];
     return posts;
   } catch (error) {
     console.log("FETCH ERROR ", error);
@@ -24,9 +23,12 @@ export const getPosts = async () => {
 
 export const getPostDetails = async (postId: string) => {
   try {
+   
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE}/api/posts/${postId}`
     );
+
     const rawPost = await response.json();
 
     const post = mapApiPosts(rawPost);
@@ -67,7 +69,7 @@ export const createPost = async (post: PostDTO) => {
     console.log(post);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE}/api/posts`,
-      { method: "POST" , body: JSON.stringify(post)}
+      { method: "POST", body: JSON.stringify(post) }
     );
     return response.json();
   } catch (error) {

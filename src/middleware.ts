@@ -3,11 +3,11 @@ import { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const session = request.cookies.get("session");
-  const isNotProtectedPathName =
-    request.nextUrl.pathname == "/" || request.nextUrl.pathname == "/login";
+
+  const isLoginPath = request.nextUrl.pathname == "/";
 
   if (!session) {
-    if (isNotProtectedPathName) {
+    if (isLoginPath) {
       return NextResponse.next();
     }
 
@@ -26,18 +26,14 @@ export async function middleware(request: NextRequest) {
   const isValidSesson = responseAPI.status === 200;
 
   if (isValidSesson) {
-    if (isNotProtectedPathName) {
+    if (isLoginPath) {
       return NextResponse.redirect(new URL("/shambala", request.url));
     }
 
     return NextResponse.next();
   }
 
-  if (isNotProtectedPathName) {
-    return NextResponse.next();
-  }
-
-  return NextResponse.redirect(new URL("/login", request.url));
+  return NextResponse.redirect(new URL("/", request.url));
 }
 
 //Add your protected routes

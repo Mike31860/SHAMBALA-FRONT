@@ -3,6 +3,7 @@ import { onAuthStateChanged, updateCurrentUser } from "firebase/auth";
 import "firebaseui/dist/firebaseui.css";
 import { auth } from "firebaseui";
 import { appLogin } from "@pages/serverActions/auth";
+import { useRouter } from "next/navigation";
 
 interface Props {
   uiConfig: auth.Config;
@@ -17,6 +18,7 @@ const FirebaseAuth = ({
   className,
   uiCallback,
 }: Props) => {
+  const router = useRouter();
   const [firebaseui, setFirebaseui] = useState<
     typeof import("firebaseui") | null
   >(null);
@@ -46,6 +48,10 @@ const FirebaseAuth = ({
       if (!user && userSignedIn) {
         firebaseUiWidget.reset();
       }
+
+      user.getIdToken().then((token) => {
+        appLogin(token);
+      });
     });
 
     // Trigger the callback if any was set.

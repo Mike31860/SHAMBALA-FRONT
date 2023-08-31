@@ -20,7 +20,7 @@ const AppMainView: NextPage<AppMainViewProps> = ({
 }) => {
   return (
     <>
-      {posts && (
+      {posts && posts.length && (
         <Container>
           <div className="mt-2 flex flex-col gap-8">
             {posts.map((post) => (

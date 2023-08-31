@@ -53,7 +53,7 @@ const NavbarComponent: React.FC<NavbarProps> = ({
                   ))}
                 </div>
                 <div className="flex w-full items-center justify-between md:w-auto">
-                  <AppLink href="/" className="w-28 dark:hidden">
+                  <AppLink className="w-28 dark:hidden">
                     {logo ? (
                       <Image
                         src={logo}
@@ -68,7 +68,7 @@ const NavbarComponent: React.FC<NavbarProps> = ({
                       </span>
                     )}
                   </AppLink>
-                  <AppLink href="/" className="hidden w-28 dark:block">
+                  <AppLink className="hidden w-28 dark:block">
                     {logoalt ? (
                       <Image
                         src={logoalt}
