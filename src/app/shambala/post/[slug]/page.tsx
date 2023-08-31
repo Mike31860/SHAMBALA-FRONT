@@ -8,8 +8,11 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect, useMemo, Suspense } from "react";
 import PostDetails from "./view";
 import { commentPost } from "@pages/serverActions/comments";
+import { useRouter } from "next/navigation";
 
 const PostDetailsPage = () => {
+
+  const router = useRouter()
   const { slug } = useParams();
 
   const postSlug: string = useMemo(() => slug as string, [slug]);
@@ -18,7 +21,7 @@ const PostDetailsPage = () => {
 
   useEffect(() => {
     if (postSlug) {
-      getPostDetails(postSlug).then(setPost);
+      getPostDetails(postSlug).then(setPost).catch(()=>router.replace("/notFound"));
     }
   }, [postSlug]);
 

@@ -15,7 +15,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
   await auth().setCustomUserClaims(decodedToken.uid, { role: "user" });
 
   if (!decodedToken) {
-    return NextResponse.json({ isLogged: false }, { status: 401 });
+    return NextResponse.json({ isLogged: false, status: 401 });
   }
 
   //Generate session cookie
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   await cookies().set(options);
 
-  return NextResponse.json({ isLogged: true }, { status: 200 });
+  return NextResponse.redirect(new URL("/shambala", request.url));
 }
 
 export async function GET() {
@@ -54,7 +54,10 @@ export async function GET() {
       return NextResponse.json({ isLogged: false }, { status: 401 });
     }
 
-    return NextResponse.json({ isLogged: true }, { status: 200 });
+    return NextResponse.json(
+      { isLogged: true, claims: decodedClaims },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }

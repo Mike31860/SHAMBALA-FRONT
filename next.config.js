@@ -21,6 +21,15 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://shambala-front-b6ng8orol-mike31860.vercel.app/api/:path*",
+      },
+      
+    ];
+  },
   images: {
     domains: ["images.unsplash.com", "img.freepik.com"],
     remotePatterns: [

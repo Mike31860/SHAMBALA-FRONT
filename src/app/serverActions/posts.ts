@@ -14,6 +14,7 @@ export const getPosts = async () => {
       `${process.env.NEXT_PUBLIC_API_BASE}/api/posts`
     );
     const rawPosts = await response.json();
+    console.log("raw post", rawPosts);
     const posts = rawPosts ? rawPosts.map(mapApiPosts) : [];
     return posts;
   } catch (error) {
@@ -23,12 +24,13 @@ export const getPosts = async () => {
 
 export const getPostDetails = async (postId: string) => {
   try {
-   
-
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE}/api/posts/${postId}`
     );
 
+    if (response.status !== 200) {
+      throw new Error("Not found");
+    }
     const rawPost = await response.json();
 
     const post = mapApiPosts(rawPost);
@@ -46,6 +48,7 @@ export const getPostDetails = async (postId: string) => {
     return post;
   } catch (error) {
     console.debug("FETCH ERROR ON POST DETAIL ", error);
+    throw error;
   }
 };
 

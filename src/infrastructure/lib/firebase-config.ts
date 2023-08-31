@@ -1,9 +1,8 @@
-import { FirebaseOptions, initializeApp } from "firebase/app";
+import {  initializeApp } from "firebase/app";
 import { getApps, getApp } from "firebase/app";
 import {
   AuthProvider,
   EmailAuthProvider,
-  FacebookAuthProvider,
   getAuth,
 } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";

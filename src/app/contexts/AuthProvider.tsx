@@ -1,7 +1,6 @@
-"use client"
-import { auth } from "@infrastructure/lib/firebase-config";
-import { appLogin } from "@pages/serverActions/auth";
-import { User, onAuthStateChanged } from "firebase/auth";
+"use client";
+
+import { getSession } from "@pages/serverActions/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
@@ -12,26 +11,45 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | undefined>();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [session, setSession] = useState<string | undefined>();
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unregisterAuthObserver = onAuthStateChanged(auth, (newUser) => {
-      console.log("USER");
-      setUser(newUser ?? user);
-
-      if (!newUser) {
-        return;
-      }
-
-      newUser.getIdToken().then((token) => {
-        appLogin(token);
-      });
-    });
-
-    return () => {
-      unregisterAuthObserver();
-    };
+    getSession().then(setSession);
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  useEffect(() => {
+    setLoading(false);
+  }, [session]);
+
+  useEffect(() => {
+    console.log("SESSION AUTH ", session);
+    if (!router) {
+      return;
+    }
+    if (!session) {
+      console.log("REFRESH ");
+      router.refresh();
+      return;
+    }
+
+    const isAccessingLoging = pathname == "/";
+    if (isAccessingLoging) {
+      console.log("REFRESH 2");
+
+      router.refresh();
+    }
+  }, [session, router, pathname]);
+
+  if (loading) {
+  }
+
+  return (
+    <AuthContext.Provider value={{ session, setSession }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

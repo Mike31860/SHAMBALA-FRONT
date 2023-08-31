@@ -11,6 +11,7 @@ import { appLogin } from "@pages/serverActions/auth";
 import { useRouter } from "next/navigation";
 import { ThemeProvider } from "./contexts/ThemeProvider";
 import { AuthProvider } from "./contexts/AuthProvider";
+import NoSSR from "react-no-ssr";
 
 export default function RootLayout({
   children,
@@ -20,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="h-fit p-2 dark:bg-black">
-        <AuthProvider>
-        <ThemeProvider initialTheme="light">
-          <Navbar />
-          <div className="p-4">{children}</div>
-        </ThemeProvider>
-        </AuthProvider>
+        <NoSSR>
+          <AuthProvider>
+            <ThemeProvider initialTheme="light">
+              <Navbar />
+              <div className="p-4">{children}</div>
+            </ThemeProvider>
+          </AuthProvider>
+        </NoSSR>
       </body>
     </html>
   );
