@@ -13,7 +13,7 @@ const Navbar = () => {
   const signOut = async () => {
     console.log("sign out");
     await firebaseSignOut(auth);
-    const response = await appLogout();
+    await appLogout();
   };
 
   const leftmenu: MenuItem[] = [
