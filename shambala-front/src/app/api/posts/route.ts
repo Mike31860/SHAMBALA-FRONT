@@ -18,6 +18,7 @@ export async function POST(request: Request) {
   const response = await fetch(`${process.env.SHAMBALA_API}/posts/create`, {
     headers: {
       Authorization: `Bearer ${session}`,
+      "content-type": "application/json",
     },
     method: "POST",
     body: JSON.stringify(post),

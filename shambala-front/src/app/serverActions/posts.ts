@@ -85,7 +85,9 @@ export const doLikePost = async (postId: string) => {
 };
 
 export const createPost = async (post: PostDTO) => {
+  console.log("asasas");
   try {
+    console.log(post);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE}/api/posts`,
       { method: "POST" , body: JSON.stringify(post)}
