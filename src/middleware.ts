@@ -8,6 +8,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
   if (request.nextUrl.pathname.startsWith("/api")) {
     response.headers.append("Access-Control-Allow-Origin", "*");
+    request.headers.append("Access-Control-Allow-Origin", "*");
   }
 
   if (!session) {
