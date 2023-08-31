@@ -11,3 +11,17 @@ export async function GET() {
 
   return posts;
 }
+
+export async function POST(request: Request) {
+  const session = (await cookies().get("session")?.value) || "";
+  const post = await request.json();
+  const response = await fetch(`${process.env.SHAMBALA_API}/posts/create`, {
+    headers: {
+      Authorization: `Bearer ${session}`,
+    },
+    method: "POST",
+    body: JSON.stringify(post),
+  });
+
+  return response;
+}

@@ -11,6 +11,12 @@ export const baseComment: Comment = {
     "A random comment with random things and extra text asdijqwier qwirjqw 0ifoqwj fqwi fiqjw ",
 };
 
+export interface PostDTO {
+  title: string;
+  urlImage: string;
+  description: string;
+}
+
 export const basePost: Post = {
   id: "1",
   description: "Post's description...",
@@ -74,5 +80,17 @@ export const doLikePost = async (postId: string) => {
     return response.json();
   } catch (error) {
     console.debug("FETCH ERROR ON POST LIKE ", error);
+  }
+};
+
+export const createPost = async (post: PostDTO) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE}/api/posts`,
+      { method: "POST" , body: JSON.stringify(post)}
+    );
+    return response.json();
+  } catch (error) {
+    console.debug("FETCH ERROR ON CREATE POST ", error);
   }
 };

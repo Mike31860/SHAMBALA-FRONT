@@ -27,7 +27,7 @@ const Navbar = () => {
     },
     {
       label: "Create",
-      href: "/create",
+      href: "/shambala/create",
     },
   ];
 

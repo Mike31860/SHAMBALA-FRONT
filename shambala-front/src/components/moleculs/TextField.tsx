@@ -6,17 +6,18 @@ import Input, { InputProps } from "../atoms/Input";
 import Label from "../atoms/Span";
 
 interface TextField extends InputProps {
+  contentProps: string;
   title: string;
   errorMessage: string;
   labelProps?: SpanProps;
 
 }
 
-const TextField: FC<TextField> = ({ title, errorMessage,  labelProps,  ...props }) => {
+const TextField: FC<TextField> = ({ contentProps, title, errorMessage,  labelProps,  ...props }) => {
 
   return (
   
-      <label className="block">
+      <label className={["flex flex-row gap-4 ", contentProps].join(" ")}>
         <Label {...labelProps}>{title}</Label>
         <Input {...props} />
         <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
