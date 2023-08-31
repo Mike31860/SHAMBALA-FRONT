@@ -6,11 +6,6 @@ export async function middleware(request: NextRequest) {
   const isNotProtectedPathName =
     request.nextUrl.pathname == "/" || request.nextUrl.pathname == "/login";
 
-  console.log("session ", session);
-  console.log(`url-1: ${request.url} isProtected: ${!isNotProtectedPathName} `);
-
-  console.log(`url: ${request.nextUrl.pathname} isProtected: ${!isNotProtectedPathName} `);
-
   if (!session) {
     if (isNotProtectedPathName) {
       return NextResponse.next();
@@ -31,7 +26,6 @@ export async function middleware(request: NextRequest) {
   const isValidSesson = responseAPI.status === 200;
 
   if (isValidSesson) {
-    console.log("valid session");
     if (isNotProtectedPathName) {
       return NextResponse.redirect(new URL("/shambala", request.url));
     }

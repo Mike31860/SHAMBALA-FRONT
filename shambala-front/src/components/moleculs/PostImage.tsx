@@ -26,7 +26,7 @@ const PostImage: React.FC<PostImageProps & PostItemSharedProps> = ({
     <div
       className={cx([
         "overflow-hidden rounded-md bg-gray-100 dark:bg-gray-800 transition-all",
-        "h-80 bg-red-300",
+        "h-80 bg-red-300 relative",
         { "hover:mt-6 hover:mb-4 hover:scale-105": hover },
       ])}
     >
@@ -49,10 +49,12 @@ const PostImage: React.FC<PostImageProps & PostItemSharedProps> = ({
             //   blurDataURL: post.image.blurDataURL,
             // })}
             alt={image.alt || "Thumbnail"}
-            priority={preloadImage ? true : false}
-            className="object-cover transition-all"
+            // priority={preloadImage ? true : false}
             fill
-            sizes="(max-width: 768px) 20vw, 23vw"
+            
+            // width={20}
+            // height={20}
+            // sizes="(max-width: 768px) 20vw, 23vw"
           />
         ) : (
           <div className="w-full h-full flex justify-center center items-center">

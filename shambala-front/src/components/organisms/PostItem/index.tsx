@@ -16,6 +16,8 @@ export interface PostItemProps
   extends PostItemSharedProps,
     PostTitleConfigProps {
   post: Post;
+  onLike?: () => void;
+  onDelete?: () => void;
 }
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -27,6 +29,8 @@ const PostItem: React.FC<PostItemProps> = ({
   fontSize,
   fontWeight,
   hover = true,
+  onLike,
+  onDelete,
 }) => {
   return (
     <div className={cx("group ", minimal && "grid gap-10 md:grid-cols-2")}>
@@ -40,8 +44,24 @@ const PostItem: React.FC<PostItemProps> = ({
         preloadImage={preloadImage}
       />
       <div className="mt-2 flex flex-row gap-4">
-        <HeartIcon className="w-8 h-8 hover:text-red-500 hover:cursor-pointer" />
-        <TrashIcon className="w-8 h-8 text-red-700 hover:text-red-900 hover:cursor-pointer"/>
+        {onLike && (
+          <HeartIcon
+            onClick={onLike}
+            className={cx(
+              "w-8 h-8 hover:text-red-500 hover:cursor-pointer dark:text-white dark:hover:text-red-500",
+              {
+                "dark:text-red-500 dark:hover:text-white text-red-500 hover:text-black":
+                  post.likeUser,
+              }
+            )}
+          />
+        )}
+        {onDelete && (
+          <TrashIcon
+            onClick={onDelete}
+            className="w-8 h-8 text-red-700 hover:text-red-900 hover:cursor-pointer"
+          />
+        )}
       </div>
       <div className={cx(minimal && "flex items-center")}>
         <div>
