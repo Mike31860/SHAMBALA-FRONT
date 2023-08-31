@@ -14,12 +14,11 @@ const PostDetailsPage = () => {
 
   const postSlug: string = useMemo(() => slug as string, [slug]);
 
-  console.log("post slug", postSlug);
   const [post, setPost] = useState<Post>();
 
   useEffect(() => {
     getPostDetails(postSlug).then(setPost);
-  }, []);
+  }, [postSlug]);
 
   const onCommentPost = async (comment: string) => {
     await commentPost(post.id, comment.trim());

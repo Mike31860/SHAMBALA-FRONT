@@ -1,9 +1,8 @@
-import { NextApiRequest } from "next";
 import { cookies } from "next/headers";
 import { getPostId } from "../helper";
 import { NextRequest } from "next/server";
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
   const session = cookies().get("session")?.value || "";
   const postId = getPostId(request.url);
 
@@ -28,11 +27,11 @@ export async function POST(request: NextRequest) {
   const respose = await fetch(
     `${process.env.SHAMBALA_API}/posts/${postId}/comment`,
     {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${session}`,
-        "Content-Type": "application/json",
+        "content-type": "application/json",
       },
-      method: "POST",
       body: JSON.stringify(body),
     }
   );

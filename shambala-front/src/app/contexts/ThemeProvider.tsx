@@ -48,7 +48,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     if (initialTheme) {
       rawSetTheme(initialTheme);
     }
-  }, []);
+  }, [initialTheme]);
 
   useEffect(() => {
     rawSetTheme(theme);

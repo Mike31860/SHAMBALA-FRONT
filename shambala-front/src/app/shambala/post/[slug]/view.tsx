@@ -19,10 +19,6 @@ const PostDetails: React.FC<PostDetailsProps> = ({
   onLike,
   onDelete,
 }) => {
-  if (!post) {
-    return;
-  }
-
   const [comment, setComment] = useState("");
 
   const onKeyEnter: React.KeyboardEventHandler<HTMLTextAreaElement> = (
@@ -32,6 +28,10 @@ const PostDetails: React.FC<PostDetailsProps> = ({
       onComment(comment);
     }
   };
+
+  if (!post) {
+    return;
+  }
 
   return (
     <div className="pl-10 pr-10">

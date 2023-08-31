@@ -12,6 +12,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
   }
   const idToken = authorization.split("Bearer ")[1];
   const decodedToken = await auth().verifyIdToken(idToken);
+  await auth().setCustomUserClaims(decodedToken.uid, { role: "user" });
 
   if (!decodedToken) {
     return NextResponse.json({ isLogged: false }, { status: 401 });

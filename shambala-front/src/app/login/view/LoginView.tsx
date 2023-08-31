@@ -9,7 +9,7 @@ const authConfig = uiConfig(providers.map((provider) => provider.providerId));
 
 const LoginView = () => {
   return (
-    <div className="w-screen h-screen flex flex-col justify-center">
+    <div className="w-full h-full flex flex-col justify-center">
       <FirebaseAuth uiConfig={authConfig} firebaseAuth={auth} />
     </div>
   );

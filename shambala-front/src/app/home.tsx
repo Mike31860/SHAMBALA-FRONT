@@ -12,6 +12,12 @@ export interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ posts }) => {
+  console.log("PPPOST ", posts);
+
+  if (!posts) {
+    return;
+  }
+
   return (
     <>
       {posts && (
