@@ -1,3 +1,4 @@
+import AppLink from "@components/atoms/Link";
 import { PostItemSharedProps } from "@components/organisms/PostItem/models";
 import { Slug } from "@domain/models/post";
 import { cx } from "@utils/commons";
@@ -22,6 +23,7 @@ const PostTitle: React.FC<PostTitleProps & PostItemSharedProps> = ({
   pathPrefix,
   slug,
   title,
+  hover,
 }) => {
   return (
     <h2
@@ -33,22 +35,27 @@ const PostTitle: React.FC<PostTitleProps & PostItemSharedProps> = ({
         "mt-2    dark:text-white break-words"
       )}
     >
-      <Link
-        href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${slug.current}`}
+      <AppLink
+        href={
+          hover && `/post/${pathPrefix ? `${pathPrefix}/` : ""}${slug.current}`
+        }
         className="flex flex-col justify-between"
       >
         <span
-          className="bg-gradient-to-r from-green-200 to-green-100 bg-[length:0px_10px] bg-left-bottom
-bg-no-repeat
-transition-[background-size]
-duration-500
-hover:bg-[length:100%_3px]
-group-hover:bg-[length:100%_10px]
-dark:from-purple-800 dark:to-purple-900 truncate"
+          className={cx(
+            " bg-[length:0px_10px] bg-left-bottom",
+            "bg-no-repeat transition-[background-size]",
+            "duration-500",
+            "hover:bg-[length:100%_3px]",
+            {
+              "dark:from-purple-800 dark:to-purple-900 truncate bg-gradient-to-r from-green-200 to-green-100":
+                hover,
+            }
+          )}
         >
           {title}
         </span>
-      </Link>
+      </AppLink>
     </h2>
   );
 };

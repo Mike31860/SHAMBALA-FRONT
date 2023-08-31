@@ -11,25 +11,28 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const idToken = authorization.split("Bearer ")[1];
     const decodedToken = await auth().verifyIdToken(idToken);
 
-    if (decodedToken) {
-      //Generate session cookie
-      const expiresIn = 60 * 60 * 24 * 5 * 1000;
-      const sessionCookie = await auth().createSessionCookie(idToken, {
-        expiresIn,
-      });
-      const options = {
-        name: "session",
-        value: sessionCookie,
-        maxAge: expiresIn,
-        httpOnly: true,
-        secure: true,
-      };
-
-      cookies().set(options);
+    if (!decodedToken) {
+      return NextResponse.next();
     }
+
+    //Generate session cookie
+    const expiresIn = 60 * 60 * 24 * 5 * 1000;
+    const sessionCookie = await auth().createSessionCookie(idToken, {
+      expiresIn,
+    });
+    const options = {
+      name: "session",
+      value: sessionCookie,
+      maxAge: expiresIn,
+      httpOnly: true,
+      secure: true,
+    };
+    await cookies().set(options);
   }
 
-  return NextResponse.json({}, { status: 200 });
+  console.log("cookies ", cookies().get("session"));
+  const redirectUrl = new URL("/shambala", request.url);
+  return NextResponse.redirect(redirectUrl);
 }
 
 export async function GET() {
@@ -41,9 +44,7 @@ export async function GET() {
 
   try {
     const decodedClaims = await auth().verifySessionCookie(session, true);
-    console.log("DECODED ", decodedClaims);
     if (!decodedClaims) {
-      console.log("NON DECODED");
       cookies().delete("session");
       //ADD HANDLING ERROR IN CASE TOKEN HAS EXPIRED. ADd logic to refresh token.
       // See: https://stackoverflow.com/questions/62389267/how-to-handle-firebaseauth-token-expiration

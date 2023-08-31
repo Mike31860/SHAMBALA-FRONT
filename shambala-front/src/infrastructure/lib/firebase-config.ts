@@ -25,4 +25,4 @@ providers.push(new GoogleAuthProvider());
 providers.push(new FacebookAuthProvider());
 providers.push(new EmailAuthProvider());
 
-export { auth, providers };
+export { app, auth, providers };

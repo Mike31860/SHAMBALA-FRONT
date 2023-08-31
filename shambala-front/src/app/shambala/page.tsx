@@ -1,31 +1,23 @@
 "use client";
 
-import Button from "@components/atoms/Button";
-import { auth } from "@infrastructure/lib/firebase-config";
-import { signOut as firebaseSignOut } from "firebase/auth";
-import React from "react";
-import { useRouter } from "next/navigation";
-import { appLogout } from "@pages/serverActions/auth";
+import React, { useEffect, useState } from "react";
+import AppMainView from "./view";
+import { getPosts } from "@pages/serverActions/posts";
+import { Post } from "@domain/models/post";
 
 const Home = () => {
-  const router = useRouter();
+  const [posts, setPosts] = useState<Post[]>();
 
-  const signOut = async () => {
-    console.log;
-    await firebaseSignOut(auth);
-    const response = await appLogout();
-    if (response.status === 200) {
-      router.push("/login");
-    }
-  };
+  useEffect(() => {
+    const onGettingPosts = async () => {
+      const posts = await getPosts();
+      setPosts(posts);
+    };
 
-  return (
-    <>
-      <div className="bg-red-300 w-20 h-20"></div>
-      <h1>Hello</h1>
-      <Button onClick={() => void signOut()}>Log out</Button>
-    </>
-  );
+    onGettingPosts();
+  }, []);
+
+  return <AppMainView posts={posts} />;
 };
 
 export default Home;

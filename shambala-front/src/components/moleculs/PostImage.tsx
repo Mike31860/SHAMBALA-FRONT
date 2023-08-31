@@ -1,3 +1,4 @@
+import AppLink from "@components/atoms/Link";
 import { PostItemSharedProps } from "@components/organisms/PostItem/models";
 import { Image, Slug } from "@domain/models/post";
 import { PhotoIcon } from "@heroicons/react/24/outline";
@@ -17,25 +18,28 @@ const PostImage: React.FC<PostImageProps & PostItemSharedProps> = ({
   preloadImage,
   pathPrefix,
   slug,
+  hover,
 }) => {
   const imageProps = image ? image : null;
 
   return (
     <div
-      className={cx(
-        " overflow-hidden rounded-md bg-gray-100 transition-all hover:scale-105   dark:bg-gray-800"
-      )}
+      className={cx([
+        "overflow-hidden rounded-md bg-gray-100 dark:bg-gray-800 transition-all",
+        "h-80 bg-red-300",
+        { "hover:mt-6 hover:mb-4 hover:scale-105": hover },
+      ])}
     >
-      <Link
+      <AppLink
         className={cx(
-          "relative block",
-          aspect === "landscape"
-            ? "aspect-video"
-            : aspect === "custom"
-            ? "aspect-[5/4]"
-            : "aspect-square"
+          { "aspect-video": aspect == "landscape" && hover },
+          { "aspect-[5/4]": aspect == "custom" && hover },
+          { "aspect-square": hover }
         )}
-        href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${slug.current}`}
+        href={
+          hover &&
+          `/shambala/post/${pathPrefix ? `${pathPrefix}/` : ""}${slug.current}`
+        }
       >
         {imageProps ? (
           <NextImage
@@ -48,14 +52,14 @@ const PostImage: React.FC<PostImageProps & PostItemSharedProps> = ({
             priority={preloadImage ? true : false}
             className="object-cover transition-all"
             fill
-            sizes="(max-width: 768px) 30vw, 33vw"
+            sizes="(max-width: 768px) 20vw, 23vw"
           />
         ) : (
-          <span className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 text-gray-200">
-            <PhotoIcon />
-          </span>
+          <div className="w-full h-full flex justify-center center items-center">
+            <PhotoIcon className="flex w-32 h-32 text-gray-50" />
+          </div>
         )}
-      </Link>
+      </AppLink>
     </div>
   );
 };

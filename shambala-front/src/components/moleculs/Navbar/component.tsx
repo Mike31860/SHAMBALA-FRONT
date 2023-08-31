@@ -1,48 +1,26 @@
 "use client";
 
 import { Fragment } from "react";
-import { Disclosure } from "@headlessui/react";
+import { Disclosure, MenuButtonProps } from "@headlessui/react";
 import Container from "@components/atoms/Container";
-import Link from "next/link";
 import Image from "next/image";
-import DropdownMenu, { MenuItem } from "./DropdownMenu";
+import DropdownMenu, { MenuItem } from "../DropdownMenu";
+import AppLink from "@components/atoms/Link";
 
-const Navbar = (props) => {
-  const leftmenu: MenuItem[] = [
-    {
-      label: "Home",
-      href: "/",
-    },
-    {
-      label: "About",
-      href: "/about",
-    },
-    {
-      label: "Contact",
-      href: "/contact",
-    },
-  ];
-
-  const rightmenu: MenuItem[] = [
-    {
-      label: "Archive",
-      href: "/archive",
-    },
-    {
-      label: "Pro Version",
-      href: "https://stablo-pro.web3templates.com/",
-      external: true,
-      badge: "new",
-    },
-    {
-      label: "Download",
-      href: "https://web3templates.com/templates/stablo-minimal-blog-website-template",
-      external: true,
-    },
-  ];
-
-  const mobilemenu = [...leftmenu, ...rightmenu];
-
+interface NavbarProps {
+  leftmenu: MenuItem[];
+  rightmenu: MenuItem[];
+  logo?: string;
+  logoalt?: string;
+  mobilemenu?: MenuItem[];
+}
+const NavbarComponent: React.FC<NavbarProps> = ({
+  leftmenu,
+  rightmenu,
+  logo,
+  logoalt,
+  mobilemenu,
+}) => {
   return (
     <Container>
       <nav>
@@ -60,7 +38,7 @@ const Navbar = (props) => {
                           items={item.children}
                         />
                       ) : (
-                        <Link
+                        <AppLink
                           href={item.href}
                           key={`${item.label}${index}`}
                           className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-blue-500 dark:text-gray-400"
@@ -68,36 +46,40 @@ const Navbar = (props) => {
                           rel={item.external ? "noopener" : ""}
                         >
                           {item.label}
-                        </Link>
+                        </AppLink>
                       )}
                     </Fragment>
                   ))}
                 </div>
                 <div className="flex w-full items-center justify-between md:w-auto">
-                  <Link href="/" className="w-28 dark:hidden">
-                    {props.logo ? (
+                  <AppLink href="/" className="w-28 dark:hidden">
+                    {logo ? (
                       <Image
-                        src={props.logo}
+                        src={logo}
                         alt="Logo"
                         priority={true}
                         sizes="(max-width: 640px) 100vw, 200px"
                       />
                     ) : (
-                      <span className="block text-center">Shambala</span>
+                      <span className="block text-center dark:text-white">
+                        Shambala
+                      </span>
                     )}
-                  </Link>
-                  <Link href="/" className="hidden w-28 dark:block">
-                    {props.logoalt ? (
+                  </AppLink>
+                  <AppLink href="/" className="hidden w-28 dark:block">
+                    {logoalt ? (
                       <Image
-                        src={props.logoalt}
+                        src={logoalt}
                         alt="Logo"
                         priority={true}
                         sizes="(max-width: 640px) 100vw, 200px"
                       />
                     ) : (
-                      <span className="block text-center">Shambala</span>
+                      <span className="block text-center dark:text-white font-bold">
+                        Shambala
+                      </span>
                     )}
-                  </Link>
+                  </AppLink>
                   <Disclosure.Button
                     aria-label="Toggle Menu"
                     className="ml-auto rounded-md px-2 py-1 text-gray-500 focus:text-blue-500 focus:outline-none dark:text-gray-300 md:hidden "
@@ -134,7 +116,7 @@ const Navbar = (props) => {
                           items={item.children}
                         />
                       ) : (
-                        <Link
+                        <AppLink
                           href={item.href}
                           key={`${item.label}${index}`}
                           className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-blue-500 dark:text-gray-400"
@@ -147,7 +129,7 @@ const Navbar = (props) => {
                               {item.badge}
                             </span>
                           )}
-                        </Link>
+                        </AppLink>
                       )}
                     </Fragment>
                   ))}
@@ -165,7 +147,7 @@ const Navbar = (props) => {
                           mobile={true}
                         />
                       ) : (
-                        <Link
+                        <AppLink
                           href={item.href}
                           key={`${item.label}${index}`}
                           className="w-full px-5 py-2 text-sm font-medium text-gray-600 hover:text-blue-500 dark:text-gray-400"
@@ -173,7 +155,7 @@ const Navbar = (props) => {
                           rel={item.external ? "noopener" : ""}
                         >
                           {item.label}
-                        </Link>
+                        </AppLink>
                       )}
                     </Fragment>
                   ))}
@@ -187,4 +169,4 @@ const Navbar = (props) => {
   );
 };
 
-export default Navbar;
+export default NavbarComponent;

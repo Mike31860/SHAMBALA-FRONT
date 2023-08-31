@@ -3,18 +3,21 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import Link from "next/link";
+import Button from "@components/atoms/Button";
 
 export interface MenuItem {
   label: string;
-  href: string;
+  href?: string;
   external?: true;
-  badge?: "new" | "";
-  children?: [];
+  badge?: string;
+  children?: MenuSubItem[];
+  onClick?: () => void;
 }
 
 export interface MenuSubItem {
-  path: string;
+  path?: string;
   title: string;
+  onClick?: () => void;
 }
 
 export interface DropdownMenuProps {
@@ -58,19 +61,40 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ menu, items, mobile }) => {
               <div className={cx(!mobile && "py-3")}>
                 {items.map((item, index) => (
                   <Menu.Item as="div" key={`${item.title}${index}`}>
-                    {({ active }) => (
-                      <Link
-                        href={item?.path ? item.path : "#"}
-                        className={cx(
-                          "flex items-center space-x-2 px-5 py-2 text-sm lg:space-x-4",
-                          active
-                            ? "text-blue-500"
-                            : "text-gray-700 hover:text-blue-500 focus:text-blue-500 dark:text-gray-300"
-                        )}
-                      >
-                        <span> {item.title}</span>
-                      </Link>
-                    )}
+                    {({ active }) => {
+                      if (!item.path) {
+                        return (
+                          <Button
+                            className={cx([
+                              "flex items-center space-x-2 px-5 py-2 text-sm lg:space-x-4",
+                              { "text-blue-500": active },
+                              {
+                                "text-gray-700 hover:text-blue-500 focus:text-blue-500 dark:text-gray-300":
+                                  !active,
+                              },
+                            ])}
+                            onClick={item?.onClick}
+                          >
+                            {item.title}
+                          </Button>
+                        );
+                      }
+                      return (
+                        <Link
+                          href={item?.path ? item.path : "#"}
+                          className={cx([
+                            "flex items-center space-x-2 px-5 py-2 text-sm lg:space-x-4",
+                            { "text-blue-500": active },
+                            {
+                              "text-gray-700 hover:text-blue-500 focus:text-blue-500 dark:text-gray-300":
+                                !active,
+                            },
+                          ])}
+                        >
+                          <span> {item.title}</span>
+                        </Link>
+                      );
+                    }}
                   </Menu.Item>
                 ))}
               </div>

@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, updateCurrentUser } from "firebase/auth";
 import "firebaseui/dist/firebaseui.css";
 import { auth } from "firebaseui";
 import { appLogin } from "@pages/serverActions/auth";
-import { useRouter } from "next/navigation";
 
 interface Props {
   uiConfig: auth.Config;
@@ -18,8 +17,6 @@ const FirebaseAuth = ({
   className,
   uiCallback,
 }: Props) => {
-  const router = useRouter();
-
   const [firebaseui, setFirebaseui] = useState<
     typeof import("firebaseui") | null
   >(null);
@@ -53,7 +50,6 @@ const FirebaseAuth = ({
       setUserSignedIn(!!user);
       user.getIdToken().then((token) => {
         appLogin(token);
-        router.push('/')
       });
     });
 

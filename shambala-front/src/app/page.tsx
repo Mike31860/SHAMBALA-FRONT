@@ -8,65 +8,7 @@ import { useRouter } from "next/navigation";
 import { Post } from "@domain/models/post";
 import { Suspense, useEffect, useState } from "react";
 import Loading from "./loading";
-
-interface ApiPost {
-  id: string;
-  owner: string;
-  title: string;
-  description: string;
-  likesCount?: string;
-  commentsCount?: string;
-}
-
-const mapApiPosts = (post: ApiPost): Post => {
-  return {
-    author: {
-      username: post.owner,
-    },
-    createdAt: new Date(),
-    id: post.id,
-    title: post.title,
-    description: post.description,
-    slug: {
-      current: "",
-    },
-  };
-};
-
-const getPosts = async () => {
-  // const basePost: Post = {
-  //   id: "1",
-  //   description: "Post's description...",
-  //   author: {
-  //     username: "MIguel Torres",
-  //   },
-  //   title: "Post 1",
-  //   slug: {
-  //     current: "",
-  //   },
-  //   createdAt: new Date(),
-  // };
-  // const posts: Post[] = [];
-
-  // for (let i = 0; i < 20; i++) {
-  //   posts.push({
-  //     ...basePost,
-  //     id: i.toString(),
-  //   });
-  // }
-
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE}/api/posts`
-    );
-    const rawPosts = await response.json();
-    console.log("raw posts ", rawPosts);
-    const posts = rawPosts.map(mapApiPosts);
-    return posts;
-  } catch (error) {
-    console.log("FETCH ERROR ", error);
-  }
-};
+import { getPosts } from "./serverActions/posts";
 
 const HomePage = () => {
   const router = useRouter();

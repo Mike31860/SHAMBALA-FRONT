@@ -1,4 +1,6 @@
-export const cx = (...classNames) => classNames.filter(Boolean).join(" ");
+import clsx from "clsx";
+
+export const cx = (...inputs: clsx.ClassValue[]) => clsx(inputs);
 
 // because we use sanity-next-image
 // vercel throws error when using normal imports

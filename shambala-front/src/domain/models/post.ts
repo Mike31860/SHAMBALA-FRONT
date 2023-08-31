@@ -23,4 +23,11 @@ export interface Post {
   excerpt?: string;
   publishedAt?: Date;
   createdAt: Date;
+  comments?: Comment[];
+}
+
+export interface Comment {
+  id: string;
+  author: Author;
+  content: string;
 }
