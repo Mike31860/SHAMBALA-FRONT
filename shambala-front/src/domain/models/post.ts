@@ -20,6 +20,10 @@ export interface Post {
   author: Author;
   slug: Slug;
   image?: Image;
+  likesCount?: number;
+  commentsCount?: number;
+  userIdsLike?: string[];
+  likeUser?: boolean;
   excerpt?: string;
   publishedAt?: Date;
   createdAt: Date;

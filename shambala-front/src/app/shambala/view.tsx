@@ -9,16 +9,28 @@ import { Post } from "@domain/models/post";
 
 export interface AppMainViewProps {
   posts: Post[];
+  onLike: (postId: string) => void;
+  onDelete?: (postId: string) => void;
 }
 
-const AppMainView: NextPage<AppMainViewProps> = ({ posts }) => {
+const AppMainView: NextPage<AppMainViewProps> = ({
+  posts,
+  onLike,
+  onDelete,
+}) => {
   return (
     <>
       {posts && (
         <Container>
           <div className="mt-2 flex flex-col gap-8">
             {posts.map((post) => (
-              <PostItem key={post.id} post={post} aspect="square" />
+              <PostItem
+                key={post.id}
+                post={post}
+                aspect="square"
+                onLike={() => onLike(post.id)}
+                onDelete={() => onDelete(post.id)}
+              />
             ))}
           </div>
           <div className="mt-10 flex justify-center">

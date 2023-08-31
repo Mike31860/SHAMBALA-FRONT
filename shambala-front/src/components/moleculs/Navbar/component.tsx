@@ -6,6 +6,7 @@ import Container from "@components/atoms/Container";
 import Image from "next/image";
 import DropdownMenu, { MenuItem } from "../DropdownMenu";
 import AppLink from "@components/atoms/Link";
+import ThemeSwitch from "../Switch";
 
 interface NavbarProps {
   leftmenu: MenuItem[];
@@ -61,8 +62,9 @@ const NavbarComponent: React.FC<NavbarProps> = ({
                         sizes="(max-width: 640px) 100vw, 200px"
                       />
                     ) : (
-                      <span className="block text-center dark:text-white">
+                      <span className="flex flex-col justify-center items-center gap-2 text-center font-bold dark:text-white">
                         Shambala
+                        <ThemeSwitch />
                       </span>
                     )}
                   </AppLink>
@@ -75,8 +77,9 @@ const NavbarComponent: React.FC<NavbarProps> = ({
                         sizes="(max-width: 640px) 100vw, 200px"
                       />
                     ) : (
-                      <span className="block text-center dark:text-white font-bold">
+                      <span className="flex flex-col justify-center items-center text-center font-bold dark:text-white">
                         Shambala
+                        <ThemeSwitch />
                       </span>
                     )}
                   </AppLink>

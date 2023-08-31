@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { auth } from "@infrastructure/lib/firebase-config";
 import { appLogin } from "@pages/serverActions/auth";
 import { useRouter } from "next/navigation";
+import { ThemeProvider } from "./contexts/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,9 +48,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className="h-screen p-2">
-        <Navbar />
-        <div className="p-4">{children}</div>
+      <body className="h-full p-2 dark:bg-black">
+        <ThemeProvider initialTheme="light">
+          <Navbar />
+          <div className="p-4">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );

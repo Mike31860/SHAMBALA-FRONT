@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { ThemeContext } from "@pages/contexts/ThemeProvider";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!mounted) return null;
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center ">
       {theme === "dark" ? (
         <button
           onClick={() => setTheme("light")}
@@ -20,7 +22,7 @@ const ThemeSwitch = () => {
 
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
+            className="w-10 h-10"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -35,8 +37,8 @@ const ThemeSwitch = () => {
           <span className="sr-only">Dark Mode</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="54"
+            height="54"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

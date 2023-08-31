@@ -1,7 +1,16 @@
 import React from "react";
 
-const getInitials = (name) => {
-  return `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
+const getInitials = (name: string) => {
+  const nameParts = name.split(" ");
+  if (!nameParts.length) {
+    return "UN";
+  }
+
+  if (nameParts.length == 1) {
+    return `${nameParts[0].slice(0, 2)}`;
+  }
+
+  return `${nameParts[0][0]}${nameParts[1][0]}`;
 };
 
 const generateBackground = (name) => {

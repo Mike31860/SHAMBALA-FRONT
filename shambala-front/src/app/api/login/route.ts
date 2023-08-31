@@ -32,7 +32,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   await cookies().set(options);
 
-  console.log("cookies ", cookies().get("session"));
   return NextResponse.json({ isLogged: true }, { status: 200 });
 }
 
