@@ -25,6 +25,10 @@ const Navbar = () => {
       label: "About",
       href: "/about",
     },
+    {
+      label: "Create",
+      href: "/create",
+    },
   ];
 
   let rightmenu: MenuItem[] = [
