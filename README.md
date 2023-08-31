@@ -38,7 +38,7 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=<your-sender-id>
 
 NEXT_PUBLIC_FIREBASE_APP_ID=<your-firebase-app-id>
 
-Now, change the NEXT_PUBLIC_FIREBASE_API_KEY for the Firebase Serice Account file is located.
+Now, change the NEXT_PUBLIC_FIREBASE_API_KEY for the path where the Firebase Service Account file is located.
 
 Great, now we have all of our configuration values stored in Environment Variables.
 
