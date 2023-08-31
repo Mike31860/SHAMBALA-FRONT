@@ -22,7 +22,6 @@ const auth = getAuth(app);
 const providers: AuthProvider[] = [];
 
 providers.push(new GoogleAuthProvider());
-providers.push(new FacebookAuthProvider());
 providers.push(new EmailAuthProvider());
 
 export { app, auth, providers };
