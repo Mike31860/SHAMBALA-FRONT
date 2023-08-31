@@ -46,11 +46,6 @@ const FirebaseAuth = ({
       if (!user && userSignedIn) {
         firebaseUiWidget.reset();
       }
-
-      setUserSignedIn(!!user);
-      user.getIdToken().then((token) => {
-        appLogin(token);
-      });
     });
 
     // Trigger the callback if any was set.

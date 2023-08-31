@@ -1,5 +1,5 @@
 export const appLogout = (): Promise<{ status: number }> => {
-  const response = fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/logout`, {
+  const response = fetch(`  /api/logout`, {
     method: "POST",
   });
 
