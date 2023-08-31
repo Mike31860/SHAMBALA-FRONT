@@ -44,11 +44,11 @@ export default function RootLayout({
     return () => {
       unregisterAuthObserver();
     };
-  }, []);
+  }, [router, userSignedIn]);
 
   return (
     <html lang="en">
-      <body className="h-full p-2 dark:bg-black">
+      <body className="h-fit p-2 dark:bg-black">
         <ThemeProvider initialTheme="light">
           <Navbar />
           <div className="p-4">{children}</div>

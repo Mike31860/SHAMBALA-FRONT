@@ -1,8 +1,8 @@
 import { NextApiRequest } from "next";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
   const session = cookies().get("session")?.value || "";
   const slugs = request.url.split("/");
 
