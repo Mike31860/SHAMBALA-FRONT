@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { onAuthStateChanged, updateCurrentUser } from "firebase/auth";
+import { useEffect, useRef, useState, useContext } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 import "firebaseui/dist/firebaseui.css";
 import { auth } from "firebaseui";
 import { appLogin } from "@pages/serverActions/auth";
+import { AuthContext } from "@pages/contexts/AuthProvider";
 
 interface Props {
   uiConfig: auth.Config;
@@ -17,11 +18,11 @@ const FirebaseAuth = ({
   className,
   uiCallback,
 }: Props) => {
+  const { session, setSession } = useContext(AuthContext);
   const [firebaseui, setFirebaseui] = useState<
     typeof import("firebaseui") | null
   >(null);
 
-  const [userSignedIn, setUserSignedIn] = useState(false);
   const elementRef = useRef(null);
 
   useEffect(() => {
@@ -38,15 +39,19 @@ const FirebaseAuth = ({
     if (uiConfig.signInFlow === "popup") firebaseUiWidget.reset();
 
     // We track the auth state to reset firebaseUi if the user signs out.
-    const unregisterAuthObserver = onAuthStateChanged(firebaseAuth, (user) => {
-      if (!user && !userSignedIn) {
-        return;
-      }
+    const unregisterAuthObserver = onAuthStateChanged(
+      firebaseAuth,
+      (newUser) => {
+        if (!newUser) {
+          firebaseUiWidget.reset();
+          return;
+        }
 
-      if (!user && userSignedIn) {
-        firebaseUiWidget.reset();
+        newUser.getIdToken().then((token) => {
+          appLogin(token).then(() => setSession(token));
+        });
       }
-    });
+    );
 
     // Trigger the callback if any was set.
     if (uiCallback) uiCallback(firebaseUiWidget);
@@ -61,6 +66,10 @@ const FirebaseAuth = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firebaseui, uiConfig]);
+
+  if (typeof window === "undefined") {
+    return <div>...</div>;
+  }
 
   return <div className={className} ref={elementRef} />;
 };

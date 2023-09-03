@@ -34,7 +34,7 @@ export const AuthorImage: React.FC<AuthorImageProps> = ({ author }) => {
 const PostAuthor: React.FC<PostAuthorProps> = ({ author }) => {
   return (
     <div className="mb-3 flex items-center space-x-3 text-black font-bold font-sans dark:text-gray-400">
-      <Link href={`/author/${author?.slug?.current ?? "notFound"}`}>
+      <Link href={`/shambala/author/${author?.slug?.current ?? "notFound"}`}>
         <div className="flex items-center gap-3">
           <AuthorImage author={author} />
           <span className="truncate text-sm">{author?.username}</span>

@@ -1,65 +1,72 @@
 "use client";
-import React from "react";
+import React, { useContext, useMemo, useCallback } from "react";
 import { MenuItem } from "../DropdownMenu";
 import Component from "./component";
 import { auth } from "@infrastructure/lib/firebase-config";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { signOut as firebaseSignOut } from "firebase/auth";
-import { appLogout } from "@pages/serverActions/auth";
+import { appLogout, getSession } from "@pages/serverActions/auth";
+import { AuthContext } from "@pages/contexts/AuthProvider";
 
 const Navbar = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
-  const signOut = async () => {
+  const { session, setSession } = useContext(AuthContext);
+
+  const signOut = useCallback(async () => {
     console.log("sign out");
     await firebaseSignOut(auth);
     await appLogout();
-    router.push("/");
-  };
+    getSession().then((session) => setSession(session));
+  }, [setSession]);
 
-  const isLoggedIn = pathname.includes("/shambala");
-  const leftmenu: MenuItem[] = [
-    {
-      label: "Home",
-      href: "/",
-    },
-    {
-      label: "About",
-      href: "/about",
-    },
-  ];
-
-  if (isLoggedIn) {
-    leftmenu.push({
-      label: "Create",
-      href: "/shambala/create",
-    });
-  }
-
-  let rightmenu: MenuItem[] = [
-    {
-      label: "Start now!",
-      href: "/login",
-      badge: "Login / Sign up",
-    },
-  ];
-
-  if (isLoggedIn) {
-    rightmenu = [
+  const leftmenu: MenuItem[] = useMemo(() => {
+    const menu: MenuItem[] = [
       {
-        label: "User",
-        children: [
-          {
-            title: "Log out",
-            onClick: signOut,
-          },
-        ],
+        label: "Home",
+        href: session ? "/shambala" : "/",
       },
     ];
-  }
 
-  const mobilemenu = [...leftmenu, ...rightmenu];
+    if (session) {
+      menu.push({
+        label: "Create",
+        href: "/shambala/create",
+      });
+    }
+
+    return menu;
+  }, [session]);
+
+  const rightmenu = useMemo(() => {
+    let menu: MenuItem[] = [
+      {
+        label: "Start now!",
+        href: "/",
+        badge: "Login / Sign up",
+      },
+    ];
+
+    if (session) {
+      menu = [
+        {
+          label: "User",
+          children: [
+            {
+              title: "Log out",
+              onClick: signOut,
+            },
+          ],
+        },
+      ];
+    }
+    return menu;
+  }, [session, signOut]);
+
+  const mobilemenu = useMemo(
+    () => [...leftmenu, ...rightmenu],
+    [leftmenu, rightmenu]
+  );
 
   return (
     <Component

@@ -25,8 +25,9 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://shambala-front-mike31860.vercel.app/:path*",
+        destination: "https://shambala-front-b6ng8orol-mike31860.vercel.app/api/:path*",
       },
+      
     ];
   },
   images: {

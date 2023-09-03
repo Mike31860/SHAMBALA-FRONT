@@ -10,42 +10,25 @@ import { auth } from "@infrastructure/lib/firebase-config";
 import { appLogin } from "@pages/serverActions/auth";
 import { useRouter } from "next/navigation";
 import { ThemeProvider } from "./contexts/ThemeProvider";
+import { AuthProvider } from "./contexts/AuthProvider";
+import NoSSR from "react-no-ssr";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  const [userSignedIn, setUserSignedIn] = useState(false);
-
-  useEffect(() => {
-    const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
-      if (!user && !userSignedIn) {
-        router.push("/");
-        return;
-      }
-
-      setUserSignedIn(!!user);
-      user.getIdToken().then((token) => {
-        appLogin(token);
-      });
-    });
-
-    router.push("/shambala");
-
-    return () => {
-      unregisterAuthObserver();
-    };
-  }, [router, userSignedIn]);
-
   return (
     <html lang="en">
       <body className="h-fit p-2 dark:bg-black">
-        <ThemeProvider initialTheme="light">
-          <Navbar />
-          <div className="p-4">{children}</div>
-        </ThemeProvider>
+        <NoSSR>
+          <AuthProvider>
+            <ThemeProvider initialTheme="light">
+              <Navbar />
+              <div className="p-4">{children}</div>
+            </ThemeProvider>
+          </AuthProvider>
+        </NoSSR>
       </body>
     </html>
   );

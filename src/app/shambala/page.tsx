@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     const onGettingPosts = async () => {
       const posts = await getPosts();
-      setPosts(posts);
+      setPosts(posts ?? []);
     };
 
     onGettingPosts();
@@ -26,7 +26,6 @@ const Home = () => {
     const newPost = await getPostDetails(postId);
     const updatedPosts = posts.map((post) => {
       if (post.id === newPost.id) {
-        console.log("NEW NEW ", newPost);
         return newPost;
       }
       return post;
@@ -35,6 +34,7 @@ const Home = () => {
     console.log("NEW POST ", newPost);
     setPosts(updatedPosts);
   };
+
 
   const onDelete = (postId: string) => {};
 
