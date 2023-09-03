@@ -44,6 +44,7 @@ We  will create and configure all of the resources we'll be using in our project
 
 
 Configuring The Project
+
 Click the gear icon and navigate to Project Settings
 
 Now we'll need to create a Web App under this Project
@@ -54,6 +55,8 @@ Storing Config as Environment Variables
 Leave the configuration script open; we'll now convert these key-values into environment variables in our codebase.
 
 Create a .env.local file at the root of your project.
+
+Before setting up environment variables you need to generate a new [ServiceAccount](https://firebase.google.com/support/guides/service-accounts) for your firebase app and also you need to get your firebase's web app [configuration](https://firebase.google.com/docs/web/setup).
 
 We need to copy these config values into our environment variables, like so:
 
@@ -69,7 +72,8 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=<your-sender-id>
 
 NEXT_PUBLIC_FIREBASE_APP_ID=<your-firebase-app-id>
 
-Now, change the NEXT_PUBLIC_FIREBASE_API_KEY for the path where the Firebase Service Account file is located.
+
+Please take a look at the attached .env-example file. It contains comments to help you to run the project
 
 Great, now we have all of our configuration values stored in Environment Variables.
 
